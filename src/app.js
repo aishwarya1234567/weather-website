@@ -33,8 +33,7 @@ app.get('/about', (req, res)=>{
 app.get('/help', (req, res)=>{
     res.render('help',{
         title : 'Help',
-        name : 'Aishwarya',
-        helpText: 'This is some helpful text.'
+        name : 'Aishwarya'
     })
 })
 
@@ -51,7 +50,7 @@ app.get('/weather', (req, res)=>{
         {
             return res.send({error})
         }
-        forecast(longitude, latitude, (error, forecastData)=>{
+        forecast(longitude, latitude, (error, {forecastData})=>{
             if(error)
             {
                 return res.send({error})
@@ -60,6 +59,22 @@ app.get('/weather', (req, res)=>{
                 location,
                 forecastData
             })
+        })
+    })
+})
+
+app.get('/location', (req, res)=>{
+    const longitude = req.query.longitude
+    const latitude = req.query.latitude
+    
+    forecast(longitude, latitude, (error, {location, forecastData})=>{
+        if(error)
+        {
+            return res.send({error})
+        }
+        res.send({
+            location,
+            forecastData
         })
     })
 })
